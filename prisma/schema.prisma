@@ -1,0 +1,123 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Usuarios {
+  id                Int       @id @default(autoincrement())
+  nombre            String
+  apellido          String
+  email             String    @unique
+  verificacionEmail DateTime?
+  password          String
+  rol               Rol       @default(VISITANTE)
+  DNI               Int
+  fecha_nacimiento  DateTime
+  telefono          BigInt
+  direccion         String
+  Pedidos           Pedidos[]
+  Mesas             Mesas[]
+  Tickets           Tickets[]
+}
+
+enum Rol {
+  ADMIN
+  MOZO
+  CAJERO
+  VISITANTE
+}
+
+model Pedidos {
+  id                 Int               @id @default(autoincrement())
+  id_mesa            Int
+  id_usuario         Int
+  fecha_hora_pedido  DateTime          @default(now())
+  num_pedido         Int
+  fecha_hora_entrega DateTime?
+  observaciones      String
+  estado             estadoPedido      @default(PENDIENTE)
+  Tickets            Tickets[]
+  Usuarios           Usuarios          @relation(fields: [id_usuario], references: [id])
+  Mesas              Mesas             @relation(fields: [id_mesa], references: [id])
+  Detalle_Pedidos    Detalle_Pedidos[]
+}
+
+enum estadoPedido {
+  PENDIENTE
+  CANCELADO
+  ENTREGADO
+}
+
+model Detalle_Pedidos {
+  id          Int            @id @default(autoincrement())
+  id_pedido   Int
+  id_articulo Int
+  cantidad    Int
+  precio      Decimal
+  Pedido      Pedidos        @relation(fields: [id_pedido], references: [id])
+  Articulos   Articulos_Menu @relation(fields: [id_articulo], references: [id])
+}
+
+model Mesas {
+  id         Int        @id @default(autoincrement())
+  id_usuario Int
+  num_mesa   Int
+  ubicacion  Ubicacion
+  estado     estadoMesa @default(LIBRE)
+  Pedidos    Pedidos[]
+  Usuarios   Usuarios   @relation(fields: [id_usuario], references: [id])
+}
+
+enum Ubicacion {
+  AFUERA
+  ADENTRO
+}
+
+enum estadoMesa {
+  OCUPADO
+  LIBRE
+}
+
+model Articulos_Menu {
+  id              Int               @id @default(autoincrement())
+  codigo          String
+  id_categoria    Int?
+  descripcion     String
+  precio_venta    Decimal
+  estado_alta     Boolean
+  Categorias      Categorias?       @relation(fields: [id_categoria], references: [id])
+  Detalle_Pedidos Detalle_Pedidos[]
+}
+
+model Categorias {
+  id            Int              @id @default(autoincrement())
+  descripcion   String
+  Articulo_Menu Articulos_Menu[]
+}
+
+model Tickets {
+  id                    Int         @id @default(autoincrement())
+  id_pedido             Int
+  id_usuario            Int
+  id_forma_pago         Int
+  num_ticket            Int
+  fecha_hora            DateTime    @default(now())
+  estado_pendiente_pago Boolean
+  IVA                   Decimal
+  Pedido                Pedidos?    @relation(fields: [id_pedido], references: [id])
+  Usuarios              Usuarios    @relation(fields: [id_usuario], references: [id])
+  formas_pago           formas_pago @relation(fields: [id_forma_pago], references: [id])
+}
+
+model formas_pago {
+  id          Int       @id @default(autoincrement())
+  descripcion String
+  Tickets     Tickets[]
+}
