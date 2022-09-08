@@ -20,7 +20,7 @@ model Usuarios {
   rol               Rol       @default(VISITANTE)
   DNI               Int
   fecha_nacimiento  DateTime
-  telefono          BigInt
+  telefono          Int
   direccion         String
   Pedidos           Pedidos[]
   Mesas             Mesas[]
