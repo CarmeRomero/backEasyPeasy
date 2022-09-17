@@ -1,5 +1,4 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { Prisma } from '@prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
 import { actualizarUsuario } from './dto/actualizar-usuario';
 import { crearUsuarioDto } from './dto/crear-usuario.dto';
@@ -35,13 +34,15 @@ export class UsuariosService {
         id: id,
       },
       data: {
-        nombre: actualizarUsuario.nombre,
-        apellido: actualizarUsuario.apellido,
-        password: actualizarUsuario.password,
-        fecha_nacimiento: actualizarUsuario.fecha_nacimiento,
-        telefono: actualizarUsuario.telefono,
-        direccion: actualizarUsuario.direccion,
+        ...actualizarUsuario,
+        // nombre: actualizarUsuario.nombre,
+        // apellido: actualizarUsuario.apellido,
+        // password: actualizarUsuario.password,
+        // fecha_nacimiento: actualizarUsuario.fecha_nacimiento,
+        // telefono: actualizarUsuario.telefono,
+        // direccion: actualizarUsuario.direccion,
       },
     });
+    return updateUser;
   }
 }

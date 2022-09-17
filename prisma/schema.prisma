@@ -22,6 +22,7 @@ model Usuarios {
   fecha_nacimiento  DateTime
   telefono          Int
   direccion         String
+  estado_alta       Estado    @default(PENDIENTE)
   Pedidos           Pedidos[]
   Mesas             Mesas[]
   Tickets           Tickets[]
@@ -32,6 +33,12 @@ enum Rol {
   MOZO
   CAJERO
   VISITANTE
+}
+
+enum Estado {
+  HABILITADO
+  DESHABILITADO
+  PENDIENTE
 }
 
 model Pedidos {

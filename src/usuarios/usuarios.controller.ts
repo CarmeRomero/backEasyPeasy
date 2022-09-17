@@ -1,17 +1,8 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  Param,
-  ParseIntPipe,
-  Patch,
-  Post,
-} from '@nestjs/common';
+import { Body, Controller, Get, Param, Patch, Post } from '@nestjs/common';
 import { actualizarUsuario } from './dto/actualizar-usuario';
 import { crearUsuarioDto } from './dto/crear-usuario.dto';
 import { UsuariosService } from './usuarios.service';
-//El controlador es el que escucha la solicitud del cliente y emite una respuesta
+
 @Controller('usuarios')
 export class UsuariosController {
   constructor(private readonly usuariosService: UsuariosService) {}
@@ -22,7 +13,7 @@ export class UsuariosController {
   }
 
   @Get()
-  getAllUsuarios() {
+  traerTodosLosUsuarios() {
     return this.usuariosService.traerTodos();
   }
 
@@ -38,22 +29,4 @@ export class UsuariosController {
   ) {
     return this.usuariosService.actualizarUsuario(+id, actualizarUsuario);
   }
-
-  // @Get(':id')
-  // getCarById(@Param('id', ParseIntPipe) id: number) {
-  //   // return this.usuariosService.findOneById( id );
-  // }
-
-  // @Patch(':id')
-  // updateCar(@Param('id', ParseIntPipe) id: number, @Body() body: any) {
-  //   return body;
-  // }
-
-  // @Delete(':id')
-  // deleteCar(@Param('id', ParseIntPipe) id: number) {
-  //   return {
-  //     method: 'delete',
-  //     id,
-  //   };
-  // }
 }
