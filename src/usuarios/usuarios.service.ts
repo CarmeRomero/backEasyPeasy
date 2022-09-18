@@ -1,4 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
+import { Rol } from '@prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
 import { actualizarUsuario } from './dto/actualizar-usuario';
 import { crearUsuarioDto } from './dto/crear-usuario.dto';
@@ -14,7 +15,11 @@ export class UsuariosService {
   }
 
   async traerTodos() {
-    return this.prisma.usuarios.findMany();
+    return this.prisma.usuarios.findMany({
+      where: {
+        fecha_baja: null,
+      },
+    });
   }
 
   async traerUno(id) {
@@ -44,5 +49,33 @@ export class UsuariosService {
       },
     });
     return updateUser;
+  }
+
+  async anularUsuario(id: number) {
+    const updateUser = await this.prisma.usuarios.update({
+      where: {
+        id: id,
+      },
+      data: {
+        fecha_baja: new Date(),
+      },
+    });
+    return updateUser;
+  }
+
+  async traerTodosLosRoles() {
+    return [Rol];
+  }
+
+  async actualizarRol(id: number, rol: Rol) {
+    const updateRol = await this.prisma.usuarios.update({
+      where: {
+        id: id,
+      },
+      data: {
+        rol,
+      },
+    });
+    return updateRol;
   }
 }

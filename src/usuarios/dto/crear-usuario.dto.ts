@@ -1,5 +1,4 @@
 import { Rol } from '@prisma/client';
-import { isDate, isString } from 'class-validator';
 
 export class crearUsuarioDto {
   nombre: string;
