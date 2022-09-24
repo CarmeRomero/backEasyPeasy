@@ -6,24 +6,41 @@ import {
   Patch,
   Post,
   Put,
+  Res,
+  UseGuards,
   Query,
 } from '@nestjs/common';
 import { Rol } from '@prisma/client';
+import JwtAuthenticationGuard from '../autenticacion/jwt-authentication.guard';
 import { actualizarUsuario } from './dto/actualizar-usuario';
 import { crearUsuarioDto } from './dto/crear-usuario.dto';
 import { UsuariosService } from './usuarios.service';
+import { Response } from 'express';
+import { MailService } from '../mail/mail.service';
 
 @Controller('usuarios')
 export class UsuariosController {
-  constructor(private readonly usuariosService: UsuariosService) {}
+  constructor(
+    private readonly usuariosService: UsuariosService,
+    private readonly mailService: MailService,
+  ) {}
 
   @Post()
-  crearUsuario(@Body() userData: crearUsuarioDto) {
+  async crearUsuario(
+    @Body() userData: crearUsuarioDto,
+    @Res() response: Response,
+  ) {
     console.log(userData);
-    return this.usuariosService.crearUsuario(userData);
+    const usuarioCreado = await this.usuariosService.crearUsuario(userData);
+    await this.mailService.sendVerificationLink(
+      usuarioCreado.email,
+      usuarioCreado.nombre,
+    );
+    return response.sendStatus(201);
   }
 
   @Get()
+  @UseGuards(JwtAuthenticationGuard)
   traerTodosLosUsuarios() {
     return this.usuariosService.traerTodos();
   }

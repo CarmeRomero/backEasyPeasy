@@ -4,10 +4,18 @@ import { Injectable, BadRequestException } from '@nestjs/common';
 import { CredencialesDto } from './dto/credencial-usuario';
 import * as bcrypt from 'bcrypt';
 import { UsuariosService } from '../usuarios/usuarios.service';
+import { Rol } from '@prisma/client';
+import TokenPayload from './tokenPayload.interface';
+import { ConfigService } from '@nestjs/config';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class AutenticacionService {
-  constructor(private usuarioService: UsuariosService) {}
+  constructor(
+    private usuarioService: UsuariosService,
+    private readonly jwtService: JwtService,
+    private readonly configService: ConfigService,
+  ) {}
 
   public async obtenerUsuarioAutenticado({
     email,
@@ -16,7 +24,7 @@ export class AutenticacionService {
   }: CredencialesDto) {
     try {
       const usuario = await this.usuarioService.traerPorEmail(email);
-      this.verificarPassword(passwordTextoPlano, usuario.password);
+      await this.verificarPassword(passwordTextoPlano, usuario.password);
       usuario.password = undefined;
       return usuario;
     } catch (error) {
@@ -32,5 +40,44 @@ export class AutenticacionService {
     if (!isPasswordMatching) {
       throw new BadRequestException('Por favor, verificá tus credenciales');
     }
+  }
+
+  public getCookieWithJwtAccessToken(id: number, rol: Rol) {
+    const payload: TokenPayload = { id, rol };
+    const token = this.jwtService.sign(payload, {
+      secret: this.configService.get('JWT_ACCESS_TOKEN_SECRET'),
+      expiresIn: `${this.configService.get(
+        'JWT_ACCESS_TOKEN_EXPIRATION_TIME',
+      )}s`,
+    });
+    return `Authentication=${token}; HttpOnly; Path=/; Max-Age=${this.configService.get(
+      'JWT_ACCESS_TOKEN_EXPIRATION_TIME',
+    )}`;
+  }
+
+  public async decodeConfirmationToken(token: string) {
+    try {
+      const payload = await this.jwtService.verify(token, {
+        secret: this.configService.get('JWT_VERIFICATION_TOKEN_SECRET'),
+      });
+
+      if (typeof payload === 'object' && 'email' in payload) {
+        return payload.email;
+      }
+      throw new BadRequestException();
+    } catch (error) {
+      if (error?.name === 'TokenExpiredError') {
+        throw new BadRequestException('El token de confirmación ha expirado');
+      }
+      throw new BadRequestException('Token de confirmación inválido');
+    }
+  }
+
+  public async confirmEmail(email: string) {
+    const usuario = await this.usuarioService.traerPorEmail(email);
+    if (usuario.verificacionEmail) {
+      throw new BadRequestException('Este e-mail ya fue confirmado');
+    }
+    await this.usuarioService.marcarEmailComoConfirmado(email);
   }
 }

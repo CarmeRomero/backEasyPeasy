@@ -106,4 +106,13 @@ export class UsuariosService {
     });
     return updateRol;
   }
+
+  async marcarEmailComoConfirmado(email: string) {
+    await this.prisma.usuarios.update({
+      where: {
+        email,
+      },
+      data: { verificacionEmail: new Date() },
+    });
+  }
 }

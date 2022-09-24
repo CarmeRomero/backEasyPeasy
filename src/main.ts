@@ -1,5 +1,6 @@
 import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
+import * as cookieParser from 'cookie-parser';
 import { AppModule } from './app.module';
 
 // Es el punto de entrada a nuestra app. Se ejecuta al principio del proyecto
@@ -13,15 +14,17 @@ async function main() {
     },
     // logger: false,
   });
-  await app.listen(3000); // puerto
 
-  app.useGlobalPipes(
-    new ValidationPipe({
-      // estas 2 propiedades evitan que desde el front se envíe más información de la que tengo y necesito
-      // y tira error si no viene la data que yo estoy esperando
-      whitelist: true,
-      forbidNonWhitelisted: true,
-    }),
-  );
+  app.use(cookieParser());
+
+  // app.useGlobalPipes(
+  //   new ValidationPipe({
+  //     // estas 2 propiedades evitan que desde el front se envíe más información de la que tengo y necesito
+  //     // y tira error si no viene la data que yo estoy esperando
+  //     whitelist: true,
+  //     forbidNonWhitelisted: true,
+  //   }),
+  // );
+  await app.listen(3000); // puerto
 }
 main();
