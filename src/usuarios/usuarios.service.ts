@@ -1,17 +1,36 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  ConflictException,
+  InternalServerErrorException,
+} from '@nestjs/common';
 import { Rol } from '@prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
 import { actualizarUsuario } from './dto/actualizar-usuario';
 import { crearUsuarioDto } from './dto/crear-usuario.dto';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UsuariosService {
   constructor(private prisma: PrismaService) {}
 
   async crearUsuario(userData: crearUsuarioDto) {
-    console.log(userData);
-    const nuevoUsuario = await this.prisma.usuarios.create({ data: userData });
-    return nuevoUsuario;
+    // console.log(userData);
+    const hashedPassword = await bcrypt.hash(userData.password, 10);
+    userData.password = hashedPassword;
+    try {
+      const nuevoUsuario = await this.prisma.usuarios.create({
+        data: userData,
+      });
+      return nuevoUsuario;
+    } catch (error) {
+      if (error?.code === 'P2002') {
+        throw new ConflictException('El e-mail ingresado ya existe.');
+      }
+      throw new InternalServerErrorException(
+        'Algo salió mal. Por favor, intentá nuevamente.',
+      );
+    }
   }
 
   async traerTodos() {
@@ -30,6 +49,15 @@ export class UsuariosService {
     });
     // if (!usuario) throw new NotFoundException(`Car with id '${id}' not found`);
 
+    return usuario;
+  }
+
+  async traerPorEmail(email: string) {
+    const usuario = await this.prisma.usuarios.findUnique({
+      where: {
+        email: email,
+      },
+    });
     return usuario;
   }
 

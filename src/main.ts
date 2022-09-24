@@ -11,7 +11,7 @@ async function main() {
       origin: 'http://localhost:3005',
       credentials: true,
     },
-    logger: false,
+    // logger: false,
   });
   await app.listen(3000); // puerto
 
