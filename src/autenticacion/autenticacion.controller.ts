@@ -1,18 +1,14 @@
 import {
   Controller,
-  Get,
   Post,
   Body,
-  Patch,
-  Param,
-  Delete,
-  UseGuards,
   Res,
+  HttpCode,
+  HttpStatus,
 } from '@nestjs/common';
 import { AutenticacionService } from './autenticacion.service';
 import { CredencialesDto } from './dto/credencial-usuario';
 import { Response } from 'express';
-import JwtAuthenticationGuard from './jwt-authentication.guard';
 import ConfirmEmailDto from './dto/confirmEmail.dto';
 
 @Controller('autenticacion')
@@ -44,5 +40,16 @@ export class AutenticacionController {
       confirmationData.token,
     );
     await this.autenticacionService.confirmEmail(email);
+  }
+
+  @Post('cerrar-sesion')
+  @HttpCode(HttpStatus.OK)
+  // @UseGuards(JwtAuthenticationGuard)
+  async logOut(@Res() response: Response) {
+    response.setHeader(
+      'Set-Cookie',
+      this.autenticacionService.getCookiesForLogOut(),
+    );
+    response.sendStatus(200);
   }
 }

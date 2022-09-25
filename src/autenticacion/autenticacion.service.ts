@@ -80,4 +80,8 @@ export class AutenticacionService {
     }
     await this.usuarioService.marcarEmailComoConfirmado(email);
   }
+
+  public getCookiesForLogOut() {
+    return ['Authentication=; HttpOnly; Path=/; Max-Age=0'];
+  }
 }
