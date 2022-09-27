@@ -9,6 +9,7 @@ import {
   Res,
   UseGuards,
   Query,
+  Req,
 } from '@nestjs/common';
 import { Rol } from '@prisma/client';
 import JwtAuthenticationGuard from '../autenticacion/jwt-authentication.guard';
@@ -51,9 +52,26 @@ export class UsuariosController {
   }
 
   @Get(':id')
-  getUsuarioById(@Param('id') id) {
-    return this.usuariosService.traerUno(+id);
+  async TraerUsuario(@Param('id') id) {
+    const usuario = await this.usuariosService.traerUno(+id);
+    // usuario.fecha_nacimiento = new Date(usuario.fecha_nacimiento);
+    return usuario;
   }
+
+  // @Get(':id')
+  // // @UseGuards(JwtAuthenticationGuard)
+  // async getUsuarioById(
+  //   @Param('id') id,
+  //   @Req()
+  //   request : Request,
+  // ) {
+  //   const accessTokenCookie =
+  //     this.usuariosService.getCookieWithJwtAccessToken(
+  //       request.user.id,
+  //       request.user.role,
+  //     );
+  //   return await this.usuariosService.traerUno(request..id);
+  // }
 
   @Patch(':id')
   update(
