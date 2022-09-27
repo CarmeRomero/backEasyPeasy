@@ -47,8 +47,8 @@ export class UsuariosService {
         id: id,
       },
     });
-    // if (!usuario) throw new NotFoundException(`Car with id '${id}' not found`);
-
+    // if (!usuario)
+    //   throw new NotFoundException(` El usuario con id: '${id}' no existe`);
     return usuario;
   }
 
