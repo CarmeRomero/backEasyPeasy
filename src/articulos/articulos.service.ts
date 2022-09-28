@@ -8,8 +8,10 @@ export class ArticulosService {
   constructor(private prisma: PrismaService) {}
 
   async crearArticulo(userData: CrearArticuloDto) {
-    console.log(userData)
-    const nuevoArticulo = await this.prisma.articulos_Menu.create({ data: userData });
+    console.log(userData);
+    const nuevoArticulo = await this.prisma.articulos_Menu.create({
+      data: userData,
+    });
     return nuevoArticulo;
   }
 
@@ -26,11 +28,10 @@ export class ArticulosService {
       where: {
         id: id,
       },
-     
     });
-    return articulo;}
+    return articulo;
+  }
 
-    
   async actualizarArticulo(id: number, actualizarArticulo: actualizarArticulo) {
     const updateArticulo = await this.prisma.articulos_Menu.update({
       where: {
@@ -38,23 +39,21 @@ export class ArticulosService {
       },
       data: {
         ...actualizarArticulo,
-        
       },
     });
     return updateArticulo;
   }
 
   // ELIMINAR ATRICULO SI HACE FALTA
-  // async anularUsuario(id: number) {
-  //   const updateArticulo = await this.prisma.articulos_Menu.update({
-  //     where: {
-  //       id: id,
-  //     },
-  //     data: {
-  //       estado_alta: false,
-  //     },
-  //   });
-  //   return updateArticulo;
-  //}
-
+  async anularArticulo(id: number) {
+    const updateArticulo = await this.prisma.articulos_Menu.update({
+      where: {
+        id: id,
+      },
+      data: {
+        estado_alta: false,
+      },
+    });
+    return updateArticulo;
+  }
 }

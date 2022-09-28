@@ -6,6 +6,7 @@ import { AutenticacionModule } from './autenticacion/autenticacion.module';
 import { ConfigModule } from '@nestjs/config';
 import Joi = require('joi');
 import { MailModule } from './mail/mail.module';
+import { CategoriasModule } from './categorias/categorias.module';
 
 // Módulo principal que tiene todo lo que hace referencia a mi app
 @Module({
@@ -30,6 +31,7 @@ import { MailModule } from './mail/mail.module';
         EMAIL_CONFIRMATION_URL: Joi.string().required(),
       }),
     }),
+    CategoriasModule,
   ],
   controllers: [],
   providers: [],

@@ -3,7 +3,6 @@ import {
   Controller,
   Get,
   Param,
-  Patch,
   Post,
   Put,
   Res,
@@ -51,34 +50,19 @@ export class UsuariosController {
     return this.usuariosService.traerTodosLosRoles();
   }
 
-  @Get(':id')
-  async TraerUsuario(@Param('id') id) {
-    const usuario = await this.usuariosService.traerUno(+id);
-    // usuario.fecha_nacimiento = new Date(usuario.fecha_nacimiento);
-    return usuario;
+  @Get()
+  @UseGuards(JwtAuthenticationGuard)
+  TraerUsuario(@Req() request) {
+    return this.usuariosService.traerUno(request.user.id);
   }
 
-  // @Get(':id')
-  // // @UseGuards(JwtAuthenticationGuard)
-  // async getUsuarioById(
-  //   @Param('id') id,
-  //   @Req()
-  //   request : Request,
-  // ) {
-  //   const accessTokenCookie =
-  //     this.usuariosService.getCookieWithJwtAccessToken(
-  //       request.user.id,
-  //       request.user.role,
-  //     );
-  //   return await this.usuariosService.traerUno(request..id);
-  // }
-
-  @Patch(':id')
-  update(
-    @Param('id') id: number,
-    @Body() actualizarUsuario: actualizarUsuario,
-  ) {
-    return this.usuariosService.actualizarUsuario(+id, actualizarUsuario);
+  @Put()
+  @UseGuards(JwtAuthenticationGuard)
+  update(@Req() request, @Body() actualizarUsuario: actualizarUsuario) {
+    return this.usuariosService.actualizarUsuario(
+      request.user.id,
+      actualizarUsuario,
+    );
   }
 
   @Put('anular/:id')
