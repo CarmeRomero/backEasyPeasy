@@ -20,6 +20,9 @@ export class ArticulosService {
       where: {
         estado_alta: true,
       },
+      include: {
+        Categorias: true,
+      },
     });
   }
 
@@ -46,7 +49,7 @@ export class ArticulosService {
 
   // ELIMINAR ATRICULO SI HACE FALTA
   async anularArticulo(id: number) {
-    const updateArticulo = await this.prisma.articulos_Menu.update({
+    const anularArticulo = await this.prisma.articulos_Menu.update({
       where: {
         id: id,
       },
@@ -54,6 +57,6 @@ export class ArticulosService {
         estado_alta: false,
       },
     });
-    return updateArticulo;
+    return anularArticulo;
   }
 }

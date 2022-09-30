@@ -27,8 +27,8 @@ export class MailService {
 
     await this.mailerService.sendMail({
       to: email,
-      from: '"Equipo Logdepot" <support@example.com>', // override default from
-      subject: 'Bienvenido a Logdepot! Confirmación de e-mail',
+      from: '"Equipo Easy Peasy" <support@example.com>', // override default from
+      subject: 'Bienvenido a Easy Peasy! Confirmación de e-mail',
       template: 'confirmation',
       context: {
         nombre: nombre,

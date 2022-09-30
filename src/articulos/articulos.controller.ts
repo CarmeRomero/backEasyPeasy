@@ -42,8 +42,8 @@ export class ArticulosController {
     return this.articulosService.actualizarArticulo(+id, actualizarArticulo);
   }
 
-  //   @Put('anular/:id')
-  //   anularUsuario(@Param('id') id: number) {
-  //     return this.usuariosService.anularUsuario(+id);
-  //   }
+  @Put('anular/:id')
+  anularUsuario(@Param('id') id: number) {
+    return this.articulosService.anularArticulo(+id);
+  }
 }
