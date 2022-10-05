@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { CrearArticuloDto } from './dto/crear-articulo.dto';
 import { actualizarArticulo } from './dto/actualizar-articulo.dto';
+import { number } from 'joi';
 
 @Injectable()
 export class ArticulosService {
@@ -58,5 +59,16 @@ export class ArticulosService {
       },
     });
     return anularArticulo;
+  }
+
+  async traerMismaCategoria(id_categoria: number) {
+    return this.prisma.articulos_Menu.findMany({
+      where: {
+        id_categoria: id_categoria,
+      },
+      include: {
+        Categorias: true,
+      },
+    });
   }
 }

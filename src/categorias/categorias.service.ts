@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { actualizarArticulo } from 'src/articulos/dto/actualizar-articulo.dto';
 import { PrismaService } from '../prisma/prisma.service';
 import { CrearCategoriaDto } from './dto/create-categoria.dto';
 
@@ -20,12 +21,21 @@ export class CategoriasService {
     });
   }
   //HACER UN DELETE
+
   async eliminarCategoria(id: number) {
-    const updateArticulo = await this.prisma.categorias.delete({
+    await this.prisma.articulos_Menu.updateMany({
+      where: {
+        id_categoria: id,
+      },
+      data: {
+        id_categoria: null,
+      },
+    });
+    const eliminarCategoria = await this.prisma.categorias.delete({
       where: {
         id: id,
       },
     });
-    return updateArticulo;
+    return eliminarCategoria;
   }
 }

@@ -29,10 +29,14 @@ export class ArticulosController {
   }
 
   @Get(':id')
-  getUsuarioById(@Param('id') id) {
+  getUsuarioById(@Param('id') id: number) {
     return this.articulosService.traerUno(+id);
   }
 
+  @Get('misma-categoria/:id')
+  traerMismaCategoria(@Param('id') id: number) {
+    return this.articulosService.traerMismaCategoria(+id);
+  }
   //ACTUALIZAR
   @Put()
   update(
