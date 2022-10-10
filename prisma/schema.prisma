@@ -112,7 +112,7 @@ model Tickets {
   fecha_hora            DateTime    @default(now())
   estado_pendiente_pago Boolean
   IVA                   Decimal
-  Pedido                Pedidos?    @relation(fields: [id_pedido], references: [id])
+  Pedido                Pedidos     @relation(fields: [id_pedido], references: [id])
   Usuarios              Usuarios    @relation(fields: [id_usuario], references: [id])
   formas_pago           formas_pago @relation(fields: [id_forma_pago], references: [id])
 }

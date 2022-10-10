@@ -14,8 +14,8 @@ import { PedidosService } from './pedidos.service';
 export class PedidosController {
   constructor(private readonly pedidosService: PedidosService) {}
 
-  // @Post()
-  // crearArticulo(@Body() userData: CrearPedidoDto) {
-  //   return this.pedidosService.crearPedido(userData);
-  // }
+  @Post()
+  crearPedido(@Body() userData: CrearPedidoDto) {
+    return this.pedidosService.crearPedido(userData);
+  }
 }

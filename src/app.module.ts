@@ -8,6 +8,7 @@ import Joi = require('joi');
 import { MailModule } from './mail/mail.module';
 import { CategoriasModule } from './categorias/categorias.module';
 import { PedidosModule } from './pedidos/pedidos.module';
+import { DetallePedidoModule } from './detalle-pedido/detalle-pedido.module';
 
 // Módulo principal que tiene todo lo que hace referencia a mi app
 @Module({
@@ -34,6 +35,7 @@ import { PedidosModule } from './pedidos/pedidos.module';
     }),
     CategoriasModule,
     PedidosModule,
+    DetallePedidoModule,
   ],
   controllers: [],
   providers: [],
