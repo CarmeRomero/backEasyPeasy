@@ -22,10 +22,28 @@ export class PedidosService {
     });
 
     return pedidoInsert;
+  }
 
-    // const nuevoPedido = await this.prisma.pedidos.create({
-    //   data: userData,
-    // });
-    // return nuevoPedido;
+  async traerTodos() {
+    return this.prisma.pedidos.findMany({
+      include: {
+        Detalle_Pedidos: true,
+      },
+    });
+  }
+
+  async TraerPedidosDelUsuario(id) {
+    const pedido = this.prisma.pedidos.findMany({
+      where: {
+        id_usuario: id,
+      },
+      include: {
+        Detalle_Pedidos: true,
+        Mesas: true,
+      },
+    });
+    // if (!usuario)
+    //   throw new NotFoundException(` El usuario con id: '${id}' no existe`);
+    return pedido;
   }
 }
