@@ -31,4 +31,9 @@ export class PedidosController {
   TraerPedidosDelUsuario(@Req() request) {
     return this.pedidosService.TraerPedidosDelUsuario(request.user.id);
   }
+
+  @Get(':id')
+  TraerArticuloById(@Param('id') id: number) {
+    return this.pedidosService.traerUnPedido(+id);
+  }
 }

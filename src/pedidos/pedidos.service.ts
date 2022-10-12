@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { CrearPedidoDto } from './dto/crear-pedido';
 import { PrismaService } from '../prisma/prisma.service';
+import { identity } from 'rxjs';
 
 @Injectable()
 export class PedidosService {
@@ -26,6 +27,16 @@ export class PedidosService {
 
   async traerTodos() {
     return this.prisma.pedidos.findMany({
+      include: {
+        Detalle_Pedidos: true,
+      },
+    });
+  }
+  async traerUnPedido(id) {
+    return this.prisma.pedidos.findUnique({
+      where: {
+        id: id,
+      },
       include: {
         Detalle_Pedidos: true,
       },
