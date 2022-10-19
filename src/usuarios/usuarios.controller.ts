@@ -50,9 +50,10 @@ export class UsuariosController {
     return this.usuariosService.traerTodosLosRoles();
   }
 
-  @Get()
+  @Get('usuario')
   @UseGuards(JwtAuthenticationGuard)
   TraerUsuario(@Req() request) {
+    console.log(request.user.id);
     return this.usuariosService.traerUno(request.user.id);
   }
 

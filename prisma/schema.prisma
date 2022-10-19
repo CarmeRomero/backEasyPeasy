@@ -40,7 +40,7 @@ model Pedidos {
   id_mesa            Int
   id_usuario         Int
   fecha_hora_pedido  DateTime          @default(now())
-  num_pedido         Int
+  num_pedido         Int               @default(autoincrement())
   fecha_hora_entrega DateTime?
   observaciones      String
   estado             estadoPedido      @default(PENDIENTE)
