@@ -54,6 +54,7 @@ enum estadoPedido {
   PENDIENTE
   CANCELADO
   ENTREGADO
+  ELIMINADO
 }
 
 model Detalle_Pedidos {

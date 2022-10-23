@@ -2,6 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { CrearPedidoDto } from './dto/crear-pedido';
 import { PrismaService } from '../prisma/prisma.service';
 import { identity } from 'rxjs';
+import { ModificarPedidoDto } from './dto/modificar-pedido';
+import { not } from 'joi';
 
 @Injectable()
 export class PedidosService {
@@ -11,6 +13,27 @@ export class PedidosService {
     const { Detalle_Pedidos, ...pedido } = pedidoData;
 
     const pedidoInsert = await this.prisma.pedidos.create({
+      include: {
+        Detalle_Pedidos: true,
+      },
+      data: {
+        ...pedido,
+        Detalle_Pedidos: {
+          create: [...Detalle_Pedidos],
+        },
+      },
+    });
+
+    return pedidoInsert;
+  }
+
+  async modificarPedido(id, pedidoData: ModificarPedidoDto) {
+    const { Detalle_Pedidos, ...pedido } = pedidoData;
+
+    const pedidoInsert = await this.prisma.pedidos.update({
+      where: {
+        id: id,
+      },
       include: {
         Detalle_Pedidos: true,
       },
@@ -47,6 +70,7 @@ export class PedidosService {
     const pedido = this.prisma.pedidos.findMany({
       where: {
         id_usuario: id,
+        estado: 'PENDIENTE' || 'ENTREGADO' || 'CANCELADO',
       },
       include: {
         Detalle_Pedidos: true,
@@ -56,5 +80,17 @@ export class PedidosService {
     // if (!usuario)
     //   throw new NotFoundException(` El usuario con id: '${id}' no existe`);
     return pedido;
+  }
+
+  async anularPedido(id: number) {
+    const anularPedido = await this.prisma.pedidos.update({
+      where: {
+        id: id,
+      },
+      data: {
+        estado: 'ELIMINADO',
+      },
+    });
+    return anularPedido;
   }
 }

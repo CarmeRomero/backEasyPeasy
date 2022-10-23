@@ -30,7 +30,6 @@ export class UsuariosController {
     @Body() userData: crearUsuarioDto,
     @Res() response: Response,
   ) {
-    console.log(userData);
     const usuarioCreado = await this.usuariosService.crearUsuario(userData);
     await this.mailService.sendVerificationLink(
       usuarioCreado.email,

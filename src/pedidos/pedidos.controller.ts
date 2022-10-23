@@ -8,9 +8,11 @@ import {
   Delete,
   UseGuards,
   Req,
+  Put,
 } from '@nestjs/common';
 import JwtAuthenticationGuard from '../autenticacion/jwt-authentication.guard';
 import { CrearPedidoDto } from './dto/crear-pedido';
+import { ModificarPedidoDto } from './dto/modificar-pedido';
 import { PedidosService } from './pedidos.service';
 
 @Controller('pedidos')
@@ -21,6 +23,12 @@ export class PedidosController {
   crearPedido(@Body() userData: CrearPedidoDto) {
     return this.pedidosService.crearPedido(userData);
   }
+
+  @Put(':id')
+  modificarPedido(@Param('id') id: number, @Body() data: ModificarPedidoDto) {
+    return this.pedidosService.modificarPedido(+id, data);
+  }
+
   // @Get()
   // traerTodosLosArticulos() {
   //   return this.pedidosService.traerTodos();
@@ -35,5 +43,10 @@ export class PedidosController {
   @Get(':id')
   TraerArticuloById(@Param('id') id: number) {
     return this.pedidosService.traerUnPedido(+id);
+  }
+
+  @Put('anular/:id')
+  anularUsuario(@Param('id') id: number) {
+    return this.pedidosService.anularPedido(+id);
   }
 }

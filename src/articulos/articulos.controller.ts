@@ -29,7 +29,7 @@ export class ArticulosController {
   }
 
   @Get(':id')
-  getUsuarioById(@Param('id') id: number) {
+  traerUnArticulo(@Param('id') id: number) {
     return this.articulosService.traerUno(+id);
   }
 
@@ -38,7 +38,7 @@ export class ArticulosController {
     return this.articulosService.traerMismaCategoria(+id);
   }
   //ACTUALIZAR
-  @Put()
+  @Put(':id')
   update(
     @Param('id') id: number,
     @Body() actualizarArticulo: actualizarArticulo,
