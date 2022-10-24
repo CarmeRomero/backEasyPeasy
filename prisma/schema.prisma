@@ -72,6 +72,10 @@ model Mesas {
   id_usuario Int
   num_mesa   Int
   ubicacion  Ubicacion
+  x          Int
+  y          Int
+  width      Int
+  height     Int
   estado     estadoMesa @default(LIBRE)
   Pedidos    Pedidos[]
   Usuarios   Usuarios   @relation(fields: [id_usuario], references: [id])
@@ -109,10 +113,10 @@ model Tickets {
   id_pedido             Int
   id_usuario            Int
   id_forma_pago         Int
-  num_ticket            Int
+  num_ticket            Int         @default(autoincrement())
   fecha_hora            DateTime    @default(now())
   estado_pendiente_pago Boolean
-  IVA                   Decimal
+  total                 Decimal
   Pedido                Pedidos     @relation(fields: [id_pedido], references: [id])
   Usuarios              Usuarios    @relation(fields: [id_usuario], references: [id])
   formas_pago           formas_pago @relation(fields: [id_forma_pago], references: [id])
@@ -121,5 +125,6 @@ model Tickets {
 model formas_pago {
   id          Int       @id @default(autoincrement())
   descripcion String
+  estado      Boolean
   Tickets     Tickets[]
 }

@@ -25,7 +25,7 @@ export class PedidosController {
   }
 
   @Put(':id')
-  modificarPedido(@Param('id') id: number, @Body() data: ModificarPedidoDto) {
+  modificarPedido(@Param('id') id: number, @Body() data: CrearPedidoDto) {
     return this.pedidosService.modificarPedido(+id, data);
   }
 

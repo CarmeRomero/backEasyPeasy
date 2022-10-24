@@ -27,8 +27,15 @@ export class PedidosService {
     return pedidoInsert;
   }
 
-  async modificarPedido(id, pedidoData: ModificarPedidoDto) {
+  async modificarPedido(id, pedidoData: CrearPedidoDto) {
+    console.log(pedidoData.Detalle_Pedidos);
     const { Detalle_Pedidos, ...pedido } = pedidoData;
+
+    const detalleDelete = await this.prisma.detalle_Pedidos.deleteMany({
+      where: {
+        id_pedido: id,
+      },
+    });
 
     const pedidoInsert = await this.prisma.pedidos.update({
       where: {
