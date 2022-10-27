@@ -41,12 +41,17 @@ export class PedidosController {
   }
 
   @Get(':id')
-  TraerArticuloById(@Param('id') id: number) {
+  TraerUnPedido(@Param('id') id: number) {
     return this.pedidosService.traerUnPedido(+id);
   }
 
   @Put('anular/:id')
   anularUsuario(@Param('id') id: number) {
     return this.pedidosService.anularPedido(+id);
+  }
+
+  @Get('pedido-mesa/:id')
+  TraerPedidoUnaMesa(@Param('id') id: number) {
+    return this.pedidosService.traerPedidoDeUnaMesa(+id);
   }
 }

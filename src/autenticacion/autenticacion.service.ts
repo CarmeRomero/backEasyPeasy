@@ -1,6 +1,5 @@
 import { Injectable, BadRequestException } from '@nestjs/common';
 // import { UsuariosService } from '../../src/usuarios/usuarios.service';
-// import { PrismaService } from '../../src/prisma/prisma.service';
 import { CredencialesDto } from './dto/credencial-usuario';
 import * as bcrypt from 'bcrypt';
 import { UsuariosService } from '../usuarios/usuarios.service';

@@ -10,6 +10,7 @@ import { CategoriasModule } from './categorias/categorias.module';
 import { PedidosModule } from './pedidos/pedidos.module';
 import { FormasPagoModule } from './formas_pago/formas_pago.module';
 import { TicketsModule } from './ticket/tickets.module';
+import { MesasModule } from './mesas/mesas.module';
 
 // Módulo principal que tiene todo lo que hace referencia a mi app
 @Module({
@@ -38,6 +39,7 @@ import { TicketsModule } from './ticket/tickets.module';
     PedidosModule,
     FormasPagoModule,
     TicketsModule,
+    MesasModule,
   ],
   controllers: [],
   providers: [],

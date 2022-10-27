@@ -73,6 +73,20 @@ export class PedidosService {
     });
   }
 
+  // traer pedido de una mesa
+  async traerPedidoDeUnaMesa(id) {
+    return this.prisma.pedidos.findMany({
+      where: {
+        id_mesa: id,
+        activo: true,
+      },
+      include: {
+        Detalle_Pedidos: true,
+        Mesas: true,
+      },
+    });
+  }
+
   async TraerPedidosDelUsuario(id) {
     const pedido = this.prisma.pedidos.findMany({
       where: {
