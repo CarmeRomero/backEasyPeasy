@@ -6,7 +6,7 @@ import { CrearTicketDto } from './dto/crear-ticket.dto';
 export class TicketsService {
   constructor(private prisma: PrismaService) {}
 
-  async crearArticulo(userData: CrearTicketDto) {
+  async crearTicket(userData: CrearTicketDto) {
     console.log(userData);
     const nuevoTicket = await this.prisma.tickets.create({
       data: userData,
