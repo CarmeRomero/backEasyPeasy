@@ -22,4 +22,10 @@ export class MesasController {
   TraerPedidoUnaMesa(@Param('id') id: number) {
     return this.mesasService.traerUna(+id);
   }
+
+  @Post()
+  AgregarMesa(@Body() mesaDto: CrearMesaDto) {
+    console.log(mesaDto);
+    return this.mesasService.agregarMesa(mesaDto);
+  }
 }

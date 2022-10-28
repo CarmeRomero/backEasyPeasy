@@ -70,8 +70,9 @@ model Detalle_Pedidos {
 
 model Mesas {
   id         Int        @id @default(autoincrement())
-  id_usuario Int
+  id_usuario Int?
   num_mesa   Int
+  color      String
   ubicacion  Ubicacion
   x          Int
   y          Int
@@ -79,7 +80,7 @@ model Mesas {
   height     Int
   estado     estadoMesa @default(LIBRE)
   Pedidos    Pedidos[]
-  Usuarios   Usuarios   @relation(fields: [id_usuario], references: [id])
+  Usuarios   Usuarios?  @relation(fields: [id_usuario], references: [id])
 }
 
 enum Ubicacion {

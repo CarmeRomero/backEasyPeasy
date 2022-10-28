@@ -27,4 +27,11 @@ export class MesasService {
       },
     });
   }
+
+  async agregarMesa(mesaDto: CrearMesaDto) {
+    const mesa = await this.prisma.mesas.create({
+      data: mesaDto,
+    });
+    return mesa;
+  }
 }

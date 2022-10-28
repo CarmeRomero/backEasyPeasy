@@ -9,7 +9,6 @@ export class ArticulosService {
   constructor(private prisma: PrismaService) {}
 
   async crearArticulo(userData: CrearArticuloDto) {
-    console.log(userData);
     const nuevoArticulo = await this.prisma.articulos_Menu.create({
       data: userData,
     });

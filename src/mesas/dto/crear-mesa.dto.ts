@@ -1,10 +1,11 @@
+import { Ubicacion } from '@prisma/client';
+
 export class CrearMesaDto {
-  id_usuario: number;
   num_mesa: number;
-  ubicacion: string;
+  ubicacion: Ubicacion;
+  color: string;
   x: number;
   y: number;
   width: number;
   height: number;
-  estado: string;
 }
