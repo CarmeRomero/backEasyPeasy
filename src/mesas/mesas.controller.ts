@@ -6,16 +6,18 @@ import {
   Patch,
   Param,
   Delete,
+  Put,
 } from '@nestjs/common';
 import { MesasService } from './mesas.service';
 import { CrearMesaDto } from './dto/crear-mesa.dto';
+import { ModificarDimensionPosicionDto } from './dto/dimension-posicion-mesa.dto';
 
 @Controller('mesas')
 export class MesasController {
   constructor(private readonly mesasService: MesasService) {}
   //TRAER
   @Get()
-  traerTodosLosArticulos() {
+  traerTodasLasMesas() {
     return this.mesasService.traerTodas();
   }
   @Get(':id')
@@ -27,5 +29,14 @@ export class MesasController {
   AgregarMesa(@Body() mesaDto: CrearMesaDto) {
     console.log(mesaDto);
     return this.mesasService.agregarMesa(mesaDto);
+  }
+
+  @Put('/dimension-posicion')
+  ModificarPosicionMesa(
+    @Body() modificarDimensionPosicionDto: ModificarDimensionPosicionDto[],
+  ) {
+    return this.mesasService.modificarPosicionMesa(
+      modificarDimensionPosicionDto,
+    );
   }
 }

@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { CrearMesaDto } from './dto/crear-mesa.dto';
+import { ModificarDimensionPosicionDto } from './dto/dimension-posicion-mesa.dto';
 
 @Injectable()
 export class MesasService {
@@ -32,6 +33,30 @@ export class MesasService {
     const mesa = await this.prisma.mesas.create({
       data: mesaDto,
     });
+    return mesa;
+  }
+
+  async modificarPosicionMesa(
+    modificarDimensionPosicionDto: ModificarDimensionPosicionDto[],
+  ) {
+    const mesa = modificarDimensionPosicionDto.map(async (mesa) => {
+      await this.prisma.mesas.update({
+        where: {
+          id: mesa.id,
+        },
+        data: {
+          ...mesa,
+        },
+      });
+    });
+    // const mesa = await this.prisma.mesas.update({
+    //   where: {
+    //     id: modificarDimensionPosicionDto.id,
+    //   },
+    //   data: {
+    //     ...modificarDimensionPosicionDto,
+    //   },
+    // });
     return mesa;
   }
 }

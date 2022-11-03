@@ -19,4 +19,14 @@ export class TicketsController {
     console.log(ticketDto);
     return this.ticketsService.crearTicket(ticketDto);
   }
+
+  @Get('/listado-tickets')
+  traerTodosLosTickets() {
+    return this.ticketsService.traerTodos();
+  }
+
+  @Get(':id')
+  TraerUnPedido(@Param('id') id: number) {
+    return this.ticketsService.traerUno(+id);
+  }
 }

@@ -30,7 +30,18 @@ export class TicketsService {
         id: id,
       },
       include: {
-        Pedido: true,
+        Pedido: {
+          select: {
+            Detalle_Pedidos: {
+              select: {
+                Articulos: true,
+                precio: true,
+                cantidad: true,
+              },
+            },
+            Mesas: true,
+          },
+        },
         Usuarios: true,
         formas_pago: true,
       },

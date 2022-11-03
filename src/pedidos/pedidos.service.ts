@@ -81,7 +81,12 @@ export class PedidosService {
         activo: true,
       },
       include: {
-        Detalle_Pedidos: true,
+        Detalle_Pedidos: {
+          select: {
+            Articulos: true,
+            cantidad: true,
+          },
+        },
         Mesas: true,
       },
     });
