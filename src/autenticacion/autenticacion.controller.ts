@@ -10,10 +10,16 @@ import { AutenticacionService } from './autenticacion.service';
 import { CredencialesDto } from './dto/credencial-usuario';
 import { Response } from 'express';
 import ConfirmEmailDto from './dto/confirmEmail.dto';
+import { MailService } from '../mail/mail.service';
+import { UsuariosService } from '../usuarios/usuarios.service';
 
 @Controller('autenticacion')
 export class AutenticacionController {
-  constructor(private readonly autenticacionService: AutenticacionService) {}
+  constructor(
+    private readonly autenticacionService: AutenticacionService,
+    private readonly mailService: MailService,
+    private readonly usuariosService: UsuariosService,
+  ) {}
 
   @Post('ingreso')
   async ingreso(
@@ -51,5 +57,28 @@ export class AutenticacionController {
       this.autenticacionService.getCookiesForLogOut(),
     );
     response.sendStatus(200);
+  }
+
+  @Post('recuperar')
+  @HttpCode(HttpStatus.OK)
+  async recuperar(@Res() response: Response, @Body() dato: any) {
+    console.log(dato);
+    const usuario = await this.usuariosService.traerPorEmail(dato.email);
+    await this.mailService.enviarEmailParaRecuperacion(
+      usuario.email,
+      usuario.nombre,
+    );
+    return response.sendStatus(201);
+  }
+
+  @Post('cambiar-password')
+  @HttpCode(HttpStatus.OK)
+  async cambiarPassword(@Res() response: Response, @Body() dato: any) {
+    const email = await this.autenticacionService.decodeConfirmationToken(
+      dato.token,
+    );
+    await this.usuariosService.cambiarPassword(email, dato.password);
+
+    return response.sendStatus(201);
   }
 }

@@ -129,4 +129,18 @@ export class UsuariosService {
 
     return administradores;
   }
+
+  async cambiarPassword(email: string, password: string) {
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const usuario = await this.prisma.usuarios.update({
+      where: {
+        email: email,
+      },
+      data: {
+        password: hashedPassword,
+      },
+    });
+    return usuario;
+  }
 }

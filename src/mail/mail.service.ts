@@ -38,6 +38,31 @@ export class MailService {
     });
   }
 
+  public async enviarEmailParaRecuperacion(email: string, nombre: string) {
+    const payload: VerificationTokenPayload = { email };
+    const token = this.jwtService.sign(payload, {
+      secret: this.configService.get('JWT_VERIFICATION_TOKEN_SECRET'),
+      expiresIn: `${this.configService.get(
+        'JWT_VERIFICATION_TOKEN_EXPIRATION_TIME',
+      )}s`,
+    });
+
+    const url = `${this.configService.get(
+      'RECUPERAR_CONFIRMATION_URL',
+    )}?token=${token}`;
+
+    await this.mailerService.sendMail({
+      to: email,
+      from: '"Equipo Easy Peasy" <support@example.com>', // override default from
+      subject: 'Recuperación de contraseña',
+      template: 'recuperacion',
+      context: {
+        nombre: nombre,
+        url,
+      },
+    });
+  }
+
   public async notificarAlAdministrador(administradores: administradoresDto[]) {
     administradores.map(async ({ email, nombre }: administradoresDto) => {
       await this.mailerService.sendMail({
