@@ -59,6 +59,7 @@ export class PedidosService {
     return this.prisma.pedidos.findMany({
       include: {
         Detalle_Pedidos: true,
+        Mesas: true,
       },
     });
   }
@@ -85,6 +86,7 @@ export class PedidosService {
           select: {
             Articulos: true,
             cantidad: true,
+            precio: true,
           },
         },
         Mesas: true,

@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
+import { ActualizarTicketDto } from './dto/actualizar-ticket.dto';
 import { CrearTicketDto } from './dto/crear-ticket.dto';
 
 @Injectable()
@@ -17,7 +18,13 @@ export class TicketsService {
   async traerTodos() {
     return this.prisma.tickets.findMany({
       include: {
-        Pedido: true,
+        Pedido: {
+          select: {
+            Mesas: true,
+            num_pedido: true,
+            activo: true,
+          },
+        },
         Usuarios: true,
         formas_pago: true,
       },
@@ -47,5 +54,17 @@ export class TicketsService {
       },
     });
     return ticket;
+  }
+
+  async actualizarTicket(id: number, actualizarTicket: ActualizarTicketDto) {
+    const updateTicket = await this.prisma.tickets.update({
+      where: {
+        id: id,
+      },
+      data: {
+        ...actualizarTicket,
+      },
+    });
+    return updateTicket;
   }
 }

@@ -6,7 +6,9 @@ import {
   Patch,
   Param,
   Delete,
+  Put,
 } from '@nestjs/common';
+import { ActualizarTicketDto } from './dto/actualizar-ticket.dto';
 import { CrearTicketDto } from './dto/crear-ticket.dto';
 import { TicketsService } from './tickets.service';
 
@@ -28,5 +30,14 @@ export class TicketsController {
   @Get(':id')
   TraerUnPedido(@Param('id') id: number) {
     return this.ticketsService.traerUno(+id);
+  }
+
+  //ACTUALIZAR
+  @Put('/actualizar/:id')
+  update(
+    @Param('id') id: number,
+    @Body() actualizarTicket: ActualizarTicketDto,
+  ) {
+    return this.ticketsService.actualizarTicket(+id, actualizarTicket);
   }
 }
