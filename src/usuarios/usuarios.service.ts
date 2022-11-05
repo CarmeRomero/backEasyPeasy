@@ -115,4 +115,18 @@ export class UsuariosService {
       data: { verificacionEmail: new Date() },
     });
   }
+
+  async buscarAdministradores() {
+    const administradores = await this.prisma.usuarios.findMany({
+      where: {
+        rol: 'ADMIN',
+      },
+      select: {
+        email: true,
+        nombre: true,
+      },
+    });
+
+    return administradores;
+  }
 }

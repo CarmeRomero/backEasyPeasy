@@ -98,7 +98,17 @@ export class PedidosService {
     const pedido = this.prisma.pedidos.findMany({
       where: {
         id_usuario: id,
-        estado: 'PENDIENTE' || 'ENTREGADO' || 'CANCELADO',
+        OR: [
+          {
+            estado: 'PENDIENTE',
+          },
+          {
+            estado: 'ENTREGADO',
+          },
+          {
+            estado: 'CANCELADO',
+          },
+        ],
       },
       include: {
         Detalle_Pedidos: true,

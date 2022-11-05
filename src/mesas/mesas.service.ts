@@ -9,6 +9,16 @@ export class MesasService {
 
   async traerTodas() {
     return this.prisma.mesas.findMany({
+      where: {
+        OR: [
+          {
+            estado: 'LIBRE',
+          },
+          {
+            estado: 'OCUPADO',
+          },
+        ],
+      },
       include: {
         Pedidos: true,
         Usuarios: true,
@@ -58,5 +68,17 @@ export class MesasService {
     //   },
     // });
     return mesa;
+  }
+
+  async anularMesa(id: number) {
+    const anularMesa = await this.prisma.mesas.update({
+      where: {
+        id: id,
+      },
+      data: {
+        estado: 'INACTIVA',
+      },
+    });
+    return anularMesa;
   }
 }

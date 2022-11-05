@@ -3,6 +3,7 @@ import { ConfigService } from '@nestjs/config';
 import { MailerService } from '@nestjs-modules/mailer';
 import { Injectable } from '@nestjs/common';
 import VerificationTokenPayload from './verificationTokenPayload.interface';
+import { administradoresDto } from 'src/usuarios/dto/administradores.dto';
 
 @Injectable()
 export class MailService {
@@ -34,6 +35,20 @@ export class MailService {
         nombre: nombre,
         url,
       },
+    });
+  }
+
+  public async notificarAlAdministrador(administradores: administradoresDto[]) {
+    administradores.map(async ({ email, nombre }: administradoresDto) => {
+      await this.mailerService.sendMail({
+        to: email,
+        from: '"Equipo Easy Peasy" <support@example.com>', // override default from
+        subject: 'Nuevo registro en Easy Peasy!',
+        template: 'notificar',
+        context: {
+          nombre,
+        },
+      });
     });
   }
 }

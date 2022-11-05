@@ -7,6 +7,7 @@ import { Rol } from '@prisma/client';
 import TokenPayload from './tokenPayload.interface';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
+import { MailService } from '../mail/mail.service';
 
 @Injectable()
 export class AutenticacionService {
@@ -14,6 +15,7 @@ export class AutenticacionService {
     private usuarioService: UsuariosService,
     private readonly jwtService: JwtService,
     private readonly configService: ConfigService,
+    private readonly mailService: MailService,
   ) {}
 
   public async obtenerUsuarioAutenticado({
@@ -78,6 +80,8 @@ export class AutenticacionService {
       throw new BadRequestException('Este e-mail ya fue confirmado');
     }
     await this.usuarioService.marcarEmailComoConfirmado(email);
+    const administradores = await this.usuarioService.buscarAdministradores();
+    await this.mailService.notificarAlAdministrador(administradores);
   }
 
   public getCookiesForLogOut() {

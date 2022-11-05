@@ -39,4 +39,9 @@ export class MesasController {
       modificarDimensionPosicionDto,
     );
   }
+
+  @Put('anular/:id')
+  anularUsuario(@Param('id') id: number) {
+    return this.mesasService.anularMesa(+id);
+  }
 }

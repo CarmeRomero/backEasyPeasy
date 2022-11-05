@@ -91,6 +91,7 @@ enum Ubicacion {
 enum estadoMesa {
   OCUPADO
   LIBRE
+  INACTIVA
 }
 
 model Articulos_Menu {
