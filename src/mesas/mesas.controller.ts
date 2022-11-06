@@ -40,9 +40,13 @@ export class MesasController {
     );
   }
 
-  @Put('actualizarEstado/:id')
-  actualizarEstado(@Param('id') id: number) {
-    return this.mesasService.modificarEstadoMesa(+id);
+  @Put('actualizarEstadoLibre/:id')
+  actualizarEstadoLibre(@Param('id') id: number) {
+    return this.mesasService.modificarEstadoMesaLibre(+id);
+  }
+  @Put('actualizarEstadoOcupado/:id')
+  actualizarEstadoOcupado(@Param('id') id: number) {
+    return this.mesasService.modificarEstadoMesaOcupado(+id);
   }
   @Put('anular/:id')
   anularMesa(@Param('id') id: number) {

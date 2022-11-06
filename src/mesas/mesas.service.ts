@@ -72,13 +72,24 @@ export class MesasService {
     return mesa;
   }
 
-  async modificarEstadoMesa(id: number) {
+  async modificarEstadoMesaLibre(id: number) {
     const updateEstado = await this.prisma.mesas.update({
       where: {
         id: id,
       },
       data: {
         estado: 'LIBRE',
+      },
+    });
+    return updateEstado;
+  }
+  async modificarEstadoMesaOcupado(id: number) {
+    const updateEstado = await this.prisma.mesas.update({
+      where: {
+        id: id,
+      },
+      data: {
+        estado: 'OCUPADO',
       },
     });
     return updateEstado;
