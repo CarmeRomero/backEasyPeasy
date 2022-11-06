@@ -17,6 +17,9 @@ export class TicketsService {
 
   async traerTodos() {
     return this.prisma.tickets.findMany({
+      where: {
+        estado_pendiente_pago: true,
+      },
       include: {
         Pedido: {
           select: {

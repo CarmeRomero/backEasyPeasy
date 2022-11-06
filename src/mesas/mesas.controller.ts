@@ -40,8 +40,12 @@ export class MesasController {
     );
   }
 
+  @Put('actualizarEstado/:id')
+  actualizarEstado(@Param('id') id: number) {
+    return this.mesasService.modificarEstadoMesa(+id);
+  }
   @Put('anular/:id')
-  anularUsuario(@Param('id') id: number) {
+  anularMesa(@Param('id') id: number) {
     return this.mesasService.anularMesa(+id);
   }
 }

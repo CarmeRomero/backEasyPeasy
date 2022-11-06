@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
+import { ActualizarEstado } from './dto/actualizarEstado';
 import { CrearMesaDto } from './dto/crear-mesa.dto';
 import { ModificarDimensionPosicionDto } from './dto/dimension-posicion-mesa.dto';
 
@@ -59,6 +60,7 @@ export class MesasService {
         },
       });
     });
+
     // const mesa = await this.prisma.mesas.update({
     //   where: {
     //     id: modificarDimensionPosicionDto.id,
@@ -68,6 +70,18 @@ export class MesasService {
     //   },
     // });
     return mesa;
+  }
+
+  async modificarEstadoMesa(id: number) {
+    const updateEstado = await this.prisma.mesas.update({
+      where: {
+        id: id,
+      },
+      data: {
+        estado: 'LIBRE',
+      },
+    });
+    return updateEstado;
   }
 
   async anularMesa(id: number) {
