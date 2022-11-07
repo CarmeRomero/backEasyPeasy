@@ -7,10 +7,13 @@ import {
   Param,
   Delete,
   Put,
+  Req,
+  UseGuards,
 } from '@nestjs/common';
 import { MesasService } from './mesas.service';
 import { CrearMesaDto } from './dto/crear-mesa.dto';
 import { ModificarDimensionPosicionDto } from './dto/dimension-posicion-mesa.dto';
+import JwtAuthenticationGuard from '../autenticacion/jwt-authentication.guard';
 
 @Controller('mesas')
 export class MesasController {
@@ -44,9 +47,11 @@ export class MesasController {
   actualizarEstadoLibre(@Param('id') id: number) {
     return this.mesasService.modificarEstadoMesaLibre(+id);
   }
+
   @Put('actualizarEstadoOcupado/:id')
-  actualizarEstadoOcupado(@Param('id') id: number) {
-    return this.mesasService.modificarEstadoMesaOcupado(+id);
+  @UseGuards(JwtAuthenticationGuard)
+  actualizarEstadoOcupado(@Param('id') id: number, @Req() request) {
+    return this.mesasService.modificarEstadoMesaOcupado(+id, request.user.id);
   }
   @Put('anular/:id')
   anularMesa(@Param('id') id: number) {

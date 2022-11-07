@@ -8,7 +8,6 @@ export class FormasPagoService {
   constructor(private prisma: PrismaService) {}
 
   async crearFormaDePago(userData: CrearFormaPagoDto) {
-    console.log(userData);
     const nuevaFormaPago = await this.prisma.formas_pago.create({
       data: userData,
     });
@@ -24,7 +23,7 @@ export class FormasPagoService {
   }
   //HACER UN DELETE
   async anularFormaPago(id: number) {
-    const anularPedido = await this.prisma.formas_pago.update({
+    const anularFormaPago = await this.prisma.formas_pago.update({
       where: {
         id: id,
       },
@@ -32,6 +31,6 @@ export class FormasPagoService {
         estado: false,
       },
     });
-    return anularPedido;
+    return anularFormaPago;
   }
 }

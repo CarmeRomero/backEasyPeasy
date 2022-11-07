@@ -52,7 +52,6 @@ export class UsuariosController {
   @Get('usuario')
   @UseGuards(JwtAuthenticationGuard)
   TraerUsuario(@Req() request) {
-    console.log(request.user.id);
     return this.usuariosService.traerUno(request.user.id);
   }
 

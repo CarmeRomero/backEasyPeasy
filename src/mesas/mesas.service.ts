@@ -83,13 +83,14 @@ export class MesasService {
     });
     return updateEstado;
   }
-  async modificarEstadoMesaOcupado(id: number) {
+  async modificarEstadoMesaOcupado(id: number, idUsuario: number) {
     const updateEstado = await this.prisma.mesas.update({
       where: {
         id: id,
       },
       data: {
         estado: 'OCUPADO',
+        id_usuario: idUsuario,
       },
     });
     return updateEstado;
