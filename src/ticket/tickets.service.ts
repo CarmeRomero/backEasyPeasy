@@ -16,7 +16,7 @@ export class TicketsService {
   }
 
   async traerTodos() {
-    return this.prisma.tickets.findMany({
+    const result = this.prisma.tickets.findMany({
       where: {
         estado_pendiente_pago: true,
       },
@@ -32,6 +32,30 @@ export class TicketsService {
         formas_pago: true,
       },
     });
+
+    return result;
+  }
+
+  // Para reporte 1 de administrador: formas de pago más utilizadas
+  async traerTodosTicketsPagados() {
+    const result = this.prisma.tickets.findMany({
+      where: {
+        estado_pendiente_pago: false,
+      },
+      include: {
+        // Pedido: {
+        //   select: {
+        //     Mesas: true,
+        //     num_pedido: true,
+        //     activo: true,
+        //   },
+        // },
+        Usuarios: true,
+        formas_pago: true,
+      },
+    });
+
+    return result;
   }
 
   async traerUno(id) {

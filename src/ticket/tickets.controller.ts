@@ -26,6 +26,10 @@ export class TicketsController {
   traerTodosLosTickets() {
     return this.ticketsService.traerTodos();
   }
+  @Get('/tickets-pagados')
+  traerTodosLosTicketsPagados() {
+    return this.ticketsService.traerTodosTicketsPagados();
+  }
 
   @Get(':id')
   TraerUnPedido(@Param('id') id: number) {
