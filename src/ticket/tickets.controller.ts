@@ -44,4 +44,14 @@ export class TicketsController {
   ) {
     return this.ticketsService.actualizarTicket(+id, actualizarTicket);
   }
+
+  // REPORTE
+  //REPORTE TICKETS DESDE HASTA
+  @Get('/listado-tickets/desdeHasta/:desde/:hasta')
+  traerTodosLosTicketsDesdeHasta(
+    @Param('desde') desde: Date,
+    @Param('hasta') hasta: Date,
+  ) {
+    return this.ticketsService.traerTicketDesdeHasta(desde, hasta);
+  }
 }
