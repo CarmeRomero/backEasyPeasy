@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   Put,
+  Query,
 } from '@nestjs/common';
 import { ActualizarTicketDto } from './dto/actualizar-ticket.dto';
 import { CrearTicketDto } from './dto/crear-ticket.dto';
@@ -47,10 +48,10 @@ export class TicketsController {
 
   // REPORTE
   //REPORTE TICKETS DESDE HASTA
-  @Get('/listado-tickets/desdeHasta/:desde/:hasta')
+  @Get('/listado-tickets/desdeHasta?')
   traerTodosLosTicketsDesdeHasta(
-    @Param('desde') desde: Date,
-    @Param('hasta') hasta: Date,
+    @Query('desde') desde: Date,
+    @Query('hasta') hasta: Date,
   ) {
     return this.ticketsService.traerTicketDesdeHasta(desde, hasta);
   }
