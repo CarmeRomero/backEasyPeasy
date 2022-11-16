@@ -113,7 +113,7 @@ export class TicketsService {
             activo: true,
           },
         },
-        Usuarios: true,
+        Usuarios: {},
         formas_pago: true,
       },
     });

@@ -9,6 +9,7 @@ import {
   UseGuards,
   Req,
   Put,
+  Query,
 } from '@nestjs/common';
 import JwtAuthenticationGuard from '../autenticacion/jwt-authentication.guard';
 import { CrearPedidoDto } from './dto/crear-pedido';
@@ -53,5 +54,13 @@ export class PedidosController {
   @Get('pedido-mesa/:id')
   TraerPedidoUnaMesa(@Param('id') id: number) {
     return this.pedidosService.traerPedidoDeUnaMesa(+id);
+  }
+
+  @Get('/listado-pedido/desdeHasta?')
+  traerTodosLosTicketsDesdeHasta(
+    @Query('desde') desde: Date,
+    @Query('hasta') hasta: Date,
+  ) {
+    return this.pedidosService.pedidosPorUsuarioEntreFecha(desde, hasta);
   }
 }

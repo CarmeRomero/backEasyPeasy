@@ -131,4 +131,36 @@ export class PedidosService {
     });
     return anularPedido;
   }
+
+  //REPORTE Mozo
+
+  async pedidosPorUsuarioEntreFecha(fechaDesde, fechaHasta) {
+    const asd = await this.prisma.pedidos.groupBy({
+      by: ['id_usuario'],
+      where: {
+        fecha_hora_pedido: {
+          gte: fechaDesde,
+          lte: fechaHasta,
+        },
+        OR: [
+          {
+            estado: 'PENDIENTE',
+          },
+          {
+            estado: 'ENTREGADO',
+          },
+        ],
+      },
+
+      _count: {
+        num_pedido: true,
+      },
+      orderBy: {
+        _count: {
+          num_pedido: 'desc',
+        },
+      },
+    });
+    return asd;
+  }
 }

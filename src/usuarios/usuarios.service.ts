@@ -143,4 +143,33 @@ export class UsuariosService {
     });
     return usuario;
   }
+
+  // NO funcionó pero se deja de prueba
+  async asd(fechaDesde, fechaHasta) {
+    const asd = await this.prisma.usuarios.findMany({
+      where: {
+        rol: 'MOZO',
+      },
+
+      select: {
+        Pedidos: {
+          where: {
+            fecha_hora_pedido: {
+              gte: fechaDesde,
+              lte: fechaHasta,
+            },
+            OR: [
+              {
+                estado: 'PENDIENTE',
+              },
+              {
+                estado: 'ENTREGADO',
+              },
+            ],
+          },
+        },
+      },
+    });
+    return asd;
+  }
 }

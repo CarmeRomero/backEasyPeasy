@@ -48,11 +48,17 @@ export class UsuariosController {
   traerTodosLosRoles() {
     return this.usuariosService.traerTodosLosRoles();
   }
-
+  // traer datos del usuario log
   @Get('usuario')
   @UseGuards(JwtAuthenticationGuard)
   TraerUsuario(@Req() request) {
     return this.usuariosService.traerUno(request.user.id);
+  }
+
+  // traer un solo usuario diferente al logueado si se quiere
+  @Put('usuario/:id')
+  traerUnUsuarioDiferente(@Param('id') id: number) {
+    return this.usuariosService.traerUno(+id);
   }
 
   @Put()
@@ -73,4 +79,12 @@ export class UsuariosController {
   actualizarRol(@Query('id') id: number, @Query('rol') rol: Rol) {
     return this.usuariosService.actualizarRol(+id, rol);
   }
+
+  // @Get('/listado-usuario/desdeHasta?')
+  // traerTodosLosTicketsDesdeHasta(
+  //   @Query('desde') desde: Date,
+  //   @Query('hasta') hasta: Date,
+  // ) {
+  //   return this.usuariosService.asd(desde, hasta);
+  // }
 }
