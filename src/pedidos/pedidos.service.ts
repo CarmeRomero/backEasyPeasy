@@ -163,4 +163,27 @@ export class PedidosService {
     });
     return asd;
   }
+
+  async articulosMasConsumidos(fechaDesde, fechaHasta) {
+    console.log('Entro');
+    return await this.prisma.detalle_Pedidos.groupBy({
+      by: ['id_articulo'],
+      where: {
+        Pedido: {
+          fecha_hora_pedido: {
+            gte: fechaDesde,
+            lte: fechaHasta,
+          },
+        },
+      },
+      _sum: {
+        cantidad: true,
+      },
+      orderBy: {
+        _sum: {
+          cantidad: 'desc',
+        },
+      },
+    });
+  }
 }

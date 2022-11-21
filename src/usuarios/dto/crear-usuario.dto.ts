@@ -9,6 +9,6 @@ export class crearUsuarioDto {
   rol?: Rol;
   DNI: number;
   fecha_nacimiento: Date | string;
-  telefono: number;
+  telefono: string;
   direccion: string;
 }

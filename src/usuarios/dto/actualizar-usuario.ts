@@ -3,6 +3,6 @@ export class actualizarUsuario {
   apellido: string;
   password: string;
   fecha_nacimiento: Date | string;
-  telefono: number;
+  telefono: string;
   direccion: string;
 }

@@ -63,4 +63,13 @@ export class PedidosController {
   ) {
     return this.pedidosService.pedidosPorUsuarioEntreFecha(desde, hasta);
   }
+
+  // Reporte : trae los detalles con los id_artiuclos y cantidad
+  @Get('consumidos?')
+  articulosMasConsumidos(
+    @Query('desde') desde: Date,
+    @Query('hasta') hasta: Date,
+  ) {
+    return this.pedidosService.articulosMasConsumidos(desde, hasta);
+  }
 }

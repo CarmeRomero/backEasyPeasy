@@ -55,4 +55,9 @@ export class TicketsController {
   ) {
     return this.ticketsService.traerTicketDesdeHasta(desde, hasta);
   }
+
+  @Get('/concurrencia/fecha?')
+  asd(@Query('desde') desde: Date, @Query('hasta') hasta: Date) {
+    return this.ticketsService.asd(desde, hasta);
+  }
 }

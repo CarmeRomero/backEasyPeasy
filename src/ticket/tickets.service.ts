@@ -99,7 +99,7 @@ export class TicketsService {
   async traerTicketDesdeHasta(fechaDesde, fechaHasta) {
     const result = this.prisma.tickets.findMany({
       where: {
-        estado_pendiente_pago: true,
+        estado_pendiente_pago: false,
         fecha_hora: {
           gte: fechaDesde,
           lte: fechaHasta,
@@ -115,6 +115,24 @@ export class TicketsService {
         },
         Usuarios: {},
         formas_pago: true,
+      },
+    });
+
+    return result;
+  }
+
+  async asd(fechaDesde, fechaHasta) {
+    const result = this.prisma.tickets.groupBy({
+      by: ['fecha_hora'],
+      where: {
+        estado_pendiente_pago: false,
+        fecha_hora: {
+          gte: fechaDesde,
+          lte: fechaHasta,
+        },
+      },
+      _count: {
+        id: true,
       },
     });
 
