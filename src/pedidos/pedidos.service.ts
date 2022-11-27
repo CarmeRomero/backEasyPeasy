@@ -64,6 +64,7 @@ export class PedidosService {
     });
   }
   async traerUnPedido(id) {
+    console.log(id);
     return this.prisma.pedidos.findUnique({
       where: {
         id: id,
@@ -76,6 +77,27 @@ export class PedidosService {
 
   // traer pedido de una mesa
   async traerPedidoDeUnaMesa(id) {
+    return this.prisma.pedidos.findMany({
+      where: {
+        id_mesa: id,
+        estado: 'ENTREGADO',
+        activo: true,
+      },
+      include: {
+        Detalle_Pedidos: {
+          select: {
+            Articulos: true,
+            cantidad: true,
+            precio: true,
+          },
+        },
+        Mesas: true,
+        Usuarios: true,
+      },
+    });
+  }
+
+  async PEPEPE(id) {
     return this.prisma.pedidos.findMany({
       where: {
         id_mesa: id,

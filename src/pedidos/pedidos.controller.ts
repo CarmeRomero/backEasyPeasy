@@ -56,6 +56,11 @@ export class PedidosController {
     return this.pedidosService.traerPedidoDeUnaMesa(+id);
   }
 
+  // @Get('/pedido-masa/:id')
+  // TraerPedidoUnaMasaa(@Param('id') id: number) {
+  //   return this.pedidosService.PEPEPE(+id);
+  // }
+
   @Get('/listado-pedido/desdeHasta?')
   traerTodosLosTicketsDesdeHasta(
     @Query('desde') desde: Date,
